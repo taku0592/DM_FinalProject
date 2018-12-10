@@ -48,9 +48,8 @@ cols_to_drop = const_cols + ['sessionId']
 print("Variables not in test but in train : ", set(train_df.columns).difference(set(test_df.columns)))
 
 
-#train_df = train_df.drop(cols_to_drop + ["trafficSource.campaignCode"], axis=1)
-#test_df = test_df.drop(cols_to_drop + ["trafficSource.campaignCode"], axis=1)
-#test_df = test_df.drop(cols_to_drop, axis=1)
+train_df = train_df.drop(cols_to_drop + ["trafficSource.campaignCode"], axis=1)
+test_df = test_df.drop(cols_to_drop, axis=1)
 
 # Impute 0 for missing target values
 train_df["totals.transactionRevenue"].fillna(0, inplace=True)

@@ -27,8 +27,8 @@ def load_df(csv_path='train_v2.csv', nrows=None):
 
 start = time.time()
 
-train_df = load_df(nrows=50000)
-test_df = load_df("test_v2.csv",nrows=2000)
+train_df = load_df()
+test_df = load_df("test_v2.csv")
 end = time.time()
 print(end - start)
 print(train_df.head())
@@ -43,14 +43,16 @@ nzi = pd.notnull(train_df["totals.transactionRevenue"]).sum()
 nzr = (gdf["totals.transactionRevenue"]>0).sum()
 
 const_cols = [c for c in train_df.columns if train_df[c].nunique(dropna=False)==1 ]
-#const_cols
-cols_to_drop = const_cols + ['sessionId']
+const_cols
+#cols_to_drop = const_cols + ['sessionId']
 
 print("Variables not in test but in train : ", set(train_df.columns).difference(set(test_df.columns)))
 
+#cols_to_drop = const_cols + ['sessionId']
 
-#train_df = train_df.drop(cols_to_drop + ["trafficSource.campaignCode"], axis=1)
-#test_df = test_df.drop(cols_to_drop, axis=1)
+cols_to_drop = const_cols
+train_df = train_df.drop(cols_to_drop + ["trafficSource.campaignCode"], axis=1)
+test_df = test_df.drop(cols_to_drop, axis=1)
 
 # Impute 0 for missing target values
 train_df["totals.transactionRevenue"].fillna(0, inplace=True)
